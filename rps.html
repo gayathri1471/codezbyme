@@ -1,0 +1,43 @@
+<!-- rock-paper-scissors.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rock Paper Scissors</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-r from-teal-300 to-indigo-400 h-screen flex flex-col items-center justify-center">
+  <h1 class="text-3xl font-bold mb-6 text-white">✊🖐✌ Rock Paper Scissors</h1>
+  <div class="flex gap-4 mb-4">
+    <button class="px-6 py-3 bg-white rounded-lg shadow" onclick="play('rock')">✊ Rock</button>
+    <button class="px-6 py-3 bg-white rounded-lg shadow" onclick="play('paper')">🖐 Paper</button>
+    <button class="px-6 py-3 bg-white rounded-lg shadow" onclick="play('scissors')">✌ Scissors</button>
+  </div>
+  <div id="result" class="text-xl font-semibold text-white mt-4"></div>
+
+  <script>
+    const resultDiv = document.getElementById("result");
+    const choices = ["rock", "paper", "scissors"];
+
+    function play(player) {
+      const computer = choices[Math.floor(Math.random() * 3)];
+      let result = "";
+
+      if (player === computer) {
+        result = "It's a draw! 🤝";
+      } else if (
+        (player === "rock" && computer === "scissors") ||
+        (player === "scissors" && computer === "paper") ||
+        (player === "paper" && computer === "rock")
+      ) {
+        result = `You win! 🎉 (${player} beats ${computer})`;
+      } else {
+        result = `You lose! 😞 (${computer} beats ${player})`;
+      }
+
+      resultDiv.textContent = result;
+    }
+  </script>
+</body>
+</html>
