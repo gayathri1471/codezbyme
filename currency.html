@@ -1,0 +1,53 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Currency Converter</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 flex items-center justify-center h-screen">
+  <div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-md">
+    <h1 class="text-2xl font-bold text-center mb-4">💱 Currency Converter</h1>
+    <div class="space-y-4">
+      <input id="amount" type="number" placeholder="Enter amount" class="w-full p-2 border rounded" />
+      <div class="flex justify-between">
+        <select id="from" class="p-2 border rounded w-1/2 mr-2"></select>
+        <select id="to" class="p-2 border rounded w-1/2 ml-2"></select>
+      </div>
+      <button onclick="convertCurrency()" class="bg-green-500 text-white w-full py-2 rounded hover:bg-green-600">Convert</button>
+      <p id="result" class="text-center text-lg font-medium mt-4"></p>
+    </div>
+  </div>
+
+  <script>
+    const apiKey = "https://api.exchangerate-api.com/v4/latest/USD";
+    const fromSelect = document.getElementById("from");
+    const toSelect = document.getElementById("to");
+
+    async function loadCurrencies() {
+      const res = await fetch(apiKey);
+      const data = await res.json();
+      const currencies = Object.keys(data.rates);
+      currencies.forEach(currency => {
+        fromSelect.innerHTML += `<option value="${currency}">${currency}</option>`;
+        toSelect.innerHTML += `<option value="${currency}">${currency}</option>`;
+      });
+    }
+
+    async function convertCurrency() {
+      const amount = document.getElementById("amount").value;
+      const from = fromSelect.value;
+      const to = toSelect.value;
+      const res = await fetch(`https://api.exchangerate-api.com/v4/latest/${from}`);
+      const data = await res.json();
+      const rate = data.rates[to];
+      const result = (amount * rate).toFixed(2);
+      document.getElementById("result").textContent = `${amount} ${from} = ${result} ${to}`;
+    }
+
+    loadCurrencies();
+  </script>
+</body>
+</html>
