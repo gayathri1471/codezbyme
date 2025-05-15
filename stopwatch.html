@@ -1,0 +1,61 @@
+<!-- stopwatch-clock.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stopwatch & Clock</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center h-screen space-y-6">
+  <div class="bg-white rounded-xl shadow-lg p-6 text-center w-72">
+    <h1 class="text-2xl font-bold mb-4">⏰ Clock</h1>
+    <p id="clock" class="text-xl font-mono"></p>
+  </div>
+
+  <div class="bg-white rounded-xl shadow-lg p-6 text-center w-72">
+    <h1 class="text-2xl font-bold mb-4">⏱️ Stopwatch</h1>
+    <p id="stopwatch" class="text-xl font-mono mb-4">00:00:00</p>
+    <div class="space-x-2">
+      <button onclick="startStopwatch()" class="bg-green-500 text-white px-4 py-1 rounded">Start</button>
+      <button onclick="stopStopwatch()" class="bg-yellow-500 text-white px-4 py-1 rounded">Stop</button>
+      <button onclick="resetStopwatch()" class="bg-red-500 text-white px-4 py-1 rounded">Reset</button>
+    </div>
+  </div>
+
+  <script>
+    // Live Clock
+    setInterval(() => {
+      const now = new Date();
+      document.getElementById("clock").textContent = now.toLocaleTimeString();
+    }, 1000);
+
+    // Stopwatch Logic
+    let timer;
+    let elapsed = 0;
+
+    function updateStopwatch() {
+      elapsed++;
+      const hours = String(Math.floor(elapsed / 3600)).padStart(2, '0');
+      const minutes = String(Math.floor((elapsed % 3600) / 60)).padStart(2, '0');
+      const seconds = String(elapsed % 60).padStart(2, '0');
+      document.getElementById("stopwatch").textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    function startStopwatch() {
+      if (!timer) timer = setInterval(updateStopwatch, 1000);
+    }
+
+    function stopStopwatch() {
+      clearInterval(timer);
+      timer = null;
+    }
+
+    function resetStopwatch() {
+      stopStopwatch();
+      elapsed = 0;
+      document.getElementById("stopwatch").textContent = "00:00:00";
+    }
+  </script>
+</body>
+</html>
