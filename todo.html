@@ -1,0 +1,54 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>To-Do List</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+  <div class="bg-white shadow-lg rounded-2xl p-6 w-full max-w-md">
+    <h1 class="text-2xl font-bold text-center mb-4">📝 My Tasks</h1>
+    <div class="flex mb-4">
+      <input id="taskInput" class="flex-grow p-2 border rounded-l" placeholder="Add a new task" />
+      <button onclick="addTask()" class="bg-blue-500 text-white px-4 rounded-r hover:bg-blue-600">Add</button>
+    </div>
+    <ul id="taskList" class="space-y-2"></ul>
+  </div>
+
+  <script>
+    const taskInput = document.getElementById("taskInput");
+    const taskList = document.getElementById("taskList");
+
+    function addTask() {
+      const taskText = taskInput.value.trim();
+      if (!taskText) return;
+
+      const li = document.createElement("li");
+      li.className = "flex items-center justify-between bg-gray-200 rounded p-2";
+
+      const span = document.createElement("span");
+      span.textContent = taskText;
+
+      const btns = document.createElement("div");
+
+      const doneBtn = document.createElement("button");
+      doneBtn.innerHTML = "✅";
+      doneBtn.onclick = () => span.classList.toggle("line-through");
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.innerHTML = "🗑️";
+      deleteBtn.onclick = () => li.remove();
+
+      btns.append(doneBtn, deleteBtn);
+      btns.className = "space-x-2";
+
+      li.append(span, btns);
+      taskList.appendChild(li);
+
+      taskInput.value = "";
+    }
+  </script>
+</body>
+</html>
